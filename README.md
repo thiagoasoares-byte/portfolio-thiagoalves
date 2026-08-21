@@ -4,14 +4,6 @@ Portfólio pessoal editorial (inspirado no Zara.com: preto/branco, tipografia
 grande, muito respiro), construído com Next.js 15 (App Router), TypeScript
 e Tailwind CSS.
 
-## Rodando localmente
-
-```bash
-npm install
-cp .env.example .env.local   # opcional — veja "Painel de administração" abaixo
-npm run dev
-```
-
 Acesse http://localhost:3000
 
 ## Stack
