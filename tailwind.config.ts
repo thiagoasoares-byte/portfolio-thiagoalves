@@ -10,6 +10,7 @@ const config: Config = {
         stone: "#f4f2ee", // warm off-white for alternating panels
         line: "#e1ded7", // hairline dividers
         muted: "#82796c", // warm taupe, secondary text/labels
+        badge: "#e9f0e9", // soft pastel sage, used only to lift tech badges
       },
       fontFamily: {
         // Same type system as Rota Aberta: Fraunces for display,

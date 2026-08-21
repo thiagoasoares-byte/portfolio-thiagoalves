@@ -8,45 +8,87 @@ e Tailwind CSS.
 
 ```bash
 npm install
+cp .env.example .env.local   # opcional — veja "Painel de administração" abaixo
 npm run dev
 ```
 
 Acesse http://localhost:3000
 
-## Onde colocar as imagens dos projetos
+## Onde colocar as imagens
 
-Coloque as capturas de tela em `public/projects/`, com estes nomes exatos:
+**Foto de perfil (hero):** `public/profile.jpg` — proporção 3:4, pelo menos
+900×1200px.
 
-- `public/projects/rota-aberta.jpg`
-- `public/projects/blog-nextjs.jpg`
-- `public/projects/myggdrasil.jpg`
+**Screenshots dos projetos:** `public/projects/`, com estes nomes exatos:
+- `rota-aberta.jpg`
+- `blog-nextjs.jpg`
+- `myggdrasil.jpg`
 
-Tamanho recomendado: 1600×1200px (proporção 4:3), `.jpg` ou `.webp`.
+1600×1200px (4:3), `.jpg` ou `.webp`. Pokedex API e EduTrack AI ficam sem
+imagem de propósito (projetos de backend sem tela pra mostrar) — aparecem
+com uma capa tipográfica no lugar.
 
-A Pokedex API e o EduTrack AI foram deixados sem imagem de propósito (são
-projetos de backend/API sem tela para mostrar) — eles aparecem com uma capa
-tipográfica minimalista no lugar da screenshot. Veja
-`public/projects/README.txt` para instruções de como adicionar uma imagem
-a eles também, se quiser.
+**Certificados:** `public/certificates/`, com estes nomes:
+- `ia-ii.jpg`
+- `spas-react-ifrs.jpg`
+- `pearson-esol.jpg`
+
+1200×900px (4:3).
+
+## Painel de administração (`/admin`)
+
+Você pode adicionar/remover projetos e certificados sem tocar em código,
+por um painel protegido por senha. Como o site é hospedado na Vercel (sem
+disco persistente), os dados ficam no **mockapi.io** — a mesma ferramenta
+que você já usa no projeto do Blog — em vez de um arquivo local.
+
+### Configuração
+
+1. Defina `ADMIN_PASSWORD` no `.env.local` (e nas variáveis de ambiente da
+   Vercel, em produção). É a senha de entrada em `/admin`.
+2. Crie um projeto em [mockapi.io](https://mockapi.io) com duas
+   collections: `projects` e `certificates`. Os campos podem ser criados
+   livremente pelo próprio formulário do painel na primeira vez que você
+   adicionar um item — o mockapi aceita schema flexível.
+3. Copie as duas URLs base (algo como `https://xxxxx.mockapi.io/projects`)
+   para `NEXT_PUBLIC_MOCKAPI_PROJECTS_URL` e
+   `NEXT_PUBLIC_MOCKAPI_CERTIFICATES_URL` no `.env.local`.
+4. Acesse `/admin`, entre com a senha, e use os formulários de "Projetos"
+   e "Certificados" para adicionar ou remover itens.
+
+**Sem essas variáveis configuradas**, o site continua funcionando
+normalmente — ele cai de volta nos dados fixos em `lib/data.ts` (mesmo
+padrão de fallback silencioso do projeto do Blog). Só o painel `/admin`
+fica com um aviso pedindo a configuração.
+
+### Sobre segurança
+
+Isso é uma proteção leve, adequada para um portfólio pessoal — não um
+sistema de nível corporativo:
+
+- O login usa cookie `HttpOnly` verificado por um middleware antes de
+  qualquer acesso a `/admin`.
+- Como o mockapi não tem autenticação própria, a URL da collection fica
+  visível no bundle JS público (é assim que o mockapi funciona). Isso
+  significa que, tecnicamente, alguém que descubra a URL poderia enviar
+  dados diretamente pra lá, sem passar pelo login. Para os dados aqui
+  (projetos e certificados, informação já pública no seu GitHub/LinkedIn),
+  esse risco é aceitável — não use esse mesmo padrão para dados sensíveis.
 
 ## A fórmula Google XYZ no código
 
-Cada projeto em `lib/data.ts` tem três campos — `x`, `y` e `z` — que o
-`ProjectBlock` renderiza como três blocos rotulados:
+Cada projeto tem três campos — `x`, `y` e `z` — que o `ProjectBlock`
+renderiza como três blocos rotulados:
 
 - **O que fez** (`x`) — o resultado de engenharia entregue
 - **Por que importa** (`y`) — a métrica ou evidência que comprova o impacto
 - **Como fez** (`z`) — a stack/decisão técnica que produziu o resultado
 
-Isso segue a fórmula "Realizou [X], medido por [Y], através de [Z]", só que
-com os três elementos explícitos em vez de uma frase só — fica mais fácil
-de escanear visualmente.
-
 ## Animações
 
 - `RevealOnScroll` — fade + leve translação ao entrar na viewport
   (IntersectionObserver, sem dependências externas)
-- Hover nas imagens dos projetos — zoom sutil (`scale-[1.04]`)
+- Hover nas imagens (projetos e certificados) — zoom sutil
 - Links — sublinhado que "cresce" da esquerda ao passar o mouse
 - Header fixo — ganha fundo com blur ao rolar a página
 - Linha sob o nome no hero — cresce de 0 a 100% ao carregar
@@ -54,28 +96,45 @@ de escanear visualmente.
 
 ## Stack
 
-- Next.js 15 App Router, Server Components
+- Next.js 15 App Router, Server Components, Route Handlers, Middleware
 - TypeScript
-- Tailwind CSS (paleta preto/branco/taupe, sem cor de destaque — no
-  espírito editorial do Zara.com)
+- Tailwind CSS (paleta preto/branco/taupe + um pastel bem leve só nas
+  badges de tecnologia)
 - Fontes: Fraunces (display/serifada) + IBM Plex Sans (corpo) +
   IBM Plex Mono (rótulos) — o mesmo sistema tipográfico já usado no
   projeto Rota Aberta
+- mockapi.io como fonte de dados opcional para projetos/certificados
 
 ## Estrutura
 
 ```
 app/
-  layout.tsx        # fontes, metadata
-  page.tsx           # página única
+  layout.tsx              # fontes, metadata
+  page.tsx                 # página única (Server Component, busca dados)
   globals.css
+  admin/
+    page.tsx                # painel (protegido pelo middleware)
+    login/page.tsx
+  api/admin/
+    login/route.ts
+    logout/route.ts
 components/
-  StickyHeader.tsx    # header fixo com blur ao rolar (client)
-  RevealOnScroll.tsx  # animação de entrada por scroll (client)
-  ProjectBlock.tsx     # bloco de projeto: imagem + XYZ + badges + links
-  TechBadge.tsx         # chip tipográfico de tecnologia
+  StickyHeader.tsx           # header fixo com blur ao rolar (client)
+  RevealOnScroll.tsx          # animação de entrada por scroll (client)
+  ProjectBlock.tsx              # bloco de projeto: imagem + XYZ + badges
+  CertificateCard.tsx            # card de certificado
+  TechBadge.tsx                   # chip de tecnologia (pastel leve)
+  admin/
+    ProjectsAdmin.tsx              # formulário + lista (client)
+    CertificatesAdmin.tsx           # formulário + lista (client)
 lib/
-  data.ts             # conteúdo real dos projetos (extraído do GitHub)
+  data.ts               # dados semente: projetos, certificados, skills,
+                          # idiomas, formação
+  mockapi.ts              # busca com fallback silencioso para os semente
+  adminAuth.ts              # geração do token de sessão (Web Crypto)
+middleware.ts            # protege as rotas /admin/*
 public/
-  projects/            # onde colocar as screenshots dos projetos
+  profile.jpg             # sua foto (adicionar)
+  projects/                 # screenshots dos projetos (adicionar)
+  certificates/               # imagens dos certificados (adicionar)
 ```

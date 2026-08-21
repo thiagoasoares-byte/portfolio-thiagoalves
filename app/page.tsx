@@ -1,7 +1,10 @@
+import Image from "next/image";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import StickyHeader from "@/components/StickyHeader";
 import ProjectBlock from "@/components/ProjectBlock";
-import { projects } from "@/lib/data";
+import CertificateCard from "@/components/CertificateCard";
+import { skillCategories, languages, education } from "@/lib/data";
+import { getProjects, getCertificates } from "@/lib/mockapi";
 
 const contacts = [
   {
@@ -21,50 +24,68 @@ const contacts = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const [projects, certificates] = await Promise.all([
+    getProjects(),
+    getCertificates(),
+  ]);
+
   return (
     <>
       <StickyHeader />
 
       <main id="topo">
-        {/* Hero — tipografia grande, sem foto, no espírito editorial do Zara.com */}
-        <section className="mx-auto flex min-h-[88vh] max-w-content flex-col justify-center px-6 pt-28 sm:px-10">
-          <p className="font-mono fade-in text-[11px] uppercase tracking-[0.3em] text-muted">
-            Desenvolvedor FullStack
-          </p>
-          <h1 className="font-display fade-in-delay-1 mt-5 text-6xl italic leading-[0.95] text-ink sm:text-7xl md:text-8xl">
-            Thiago Alves
-            <br />
-            Soares
-          </h1>
-          <div className="hero-line mt-9 h-px bg-ink" />
-          <p className="fade-in-delay-2 mt-9 max-w-md text-sm leading-relaxed text-muted">
-            Experiência prática de produção no setor financeiro (Fintech),
-            atuando em pipelines de CI/CD, testes automatizados e revisão
-            estruturada de código. Comunicador bilíngue avançado (Inglês C2),
-            construindo produtos documentados de ponta a ponta.
-          </p>
-          <nav
-            aria-label="Contatos"
-            className="fade-in-delay-2 mt-9 flex flex-wrap gap-x-8 gap-y-3"
-          >
-            {contacts.map((c) => (
-              <a
-                key={c.label}
-                href={c.href}
-                target={c.href.startsWith("http") ? "_blank" : undefined}
-                rel={
-                  c.href.startsWith("http")
-                    ? "noopener noreferrer"
-                    : undefined
-                }
-                aria-label={`${c.label}: ${c.value}`}
-                className="link-underline focus-ring font-mono text-xs uppercase tracking-[0.15em] text-ink"
-              >
-                {c.value}
-              </a>
-            ))}
-          </nav>
+        {/* Hero — tipografia grande + retrato, no espírito editorial do Zara.com */}
+        <section className="mx-auto grid max-w-content items-center gap-10 px-6 pt-28 sm:grid-cols-[1.3fr_1fr] sm:gap-16 sm:px-10 sm:pt-32">
+          <div>
+            <p className="font-mono fade-in text-[11px] uppercase tracking-[0.3em] text-muted">
+              Desenvolvedor FullStack
+            </p>
+            <h1 className="font-display fade-in-delay-1 mt-5 text-6xl italic leading-[0.95] text-ink sm:text-7xl">
+              Thiago Alves
+              <br />
+              Soares
+            </h1>
+            <div className="hero-line mt-9 h-px bg-ink" />
+            <p className="fade-in-delay-2 mt-9 max-w-md text-sm leading-relaxed text-muted">
+              Experiência prática de produção no setor financeiro (Fintech),
+              atuando em pipelines de CI/CD, testes automatizados e revisão
+              estruturada de código. Comunicador bilíngue avançado (Inglês
+              C2), construindo produtos documentados de ponta a ponta.
+            </p>
+            <nav
+              aria-label="Contatos"
+              className="fade-in-delay-2 mt-9 flex flex-wrap gap-x-8 gap-y-3"
+            >
+              {contacts.map((c) => (
+                <a
+                  key={c.label}
+                  href={c.href}
+                  target={c.href.startsWith("http") ? "_blank" : undefined}
+                  rel={
+                    c.href.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
+                  aria-label={`${c.label}: ${c.value}`}
+                  className="link-underline focus-ring font-mono text-xs uppercase tracking-[0.15em] text-ink"
+                >
+                  {c.value}
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          <div className="fade-in-delay-1 relative order-first aspect-[3/4] w-full max-w-xs justify-self-center overflow-hidden border border-line bg-stone sm:order-none sm:max-w-none sm:justify-self-end">
+            <Image
+              src="/profile.jpg"
+              alt="Retrato de Thiago Alves Soares"
+              fill
+              sizes="(min-width: 640px) 30vw, 60vw"
+              className="object-cover"
+              priority
+            />
+          </div>
         </section>
 
         {/* Projetos */}
@@ -74,7 +95,7 @@ export default function Home() {
           className="mx-auto max-w-content px-6 py-4 sm:px-10"
         >
           <RevealOnScroll>
-            <div className="flex items-baseline justify-between border-t border-ink pt-6">
+            <div className="mt-16 flex items-baseline justify-between border-t border-ink pt-6 sm:mt-24">
               <h2
                 id="projetos-titulo"
                 className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted"
@@ -92,6 +113,70 @@ export default function Home() {
               <ProjectBlock {...project} reverse={project.index % 2 === 0} />
             </RevealOnScroll>
           ))}
+        </section>
+
+        {/* Certificados */}
+        <section
+          aria-labelledby="certificados-titulo"
+          className="mx-auto max-w-content px-6 py-4 sm:px-10"
+        >
+          <RevealOnScroll>
+            <h2
+              id="certificados-titulo"
+              className="font-mono border-t border-ink pt-6 text-[11px] uppercase tracking-[0.3em] text-muted"
+            >
+              Certificados
+            </h2>
+          </RevealOnScroll>
+
+          <div className="mt-10 grid gap-6 sm:mt-14 sm:grid-cols-3">
+            {certificates.map((cert) => (
+              <RevealOnScroll key={cert.id ?? cert.title}>
+                <CertificateCard {...cert} />
+              </RevealOnScroll>
+            ))}
+          </div>
+        </section>
+
+        {/* Competências técnicas */}
+        <section
+          aria-labelledby="competencias-titulo"
+          className="mx-auto max-w-content px-6 py-4 sm:px-10"
+        >
+          <RevealOnScroll>
+            <h2
+              id="competencias-titulo"
+              className="font-mono border-t border-ink pt-6 text-[11px] uppercase tracking-[0.3em] text-muted"
+            >
+              Competências técnicas
+            </h2>
+          </RevealOnScroll>
+
+          <div className="mt-10 grid gap-x-10 gap-y-8 sm:mt-14 sm:grid-cols-2">
+            {skillCategories.map((group) => (
+              <RevealOnScroll key={group.category}>
+                <h3 className="font-display text-lg italic text-ink">
+                  {group.category}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">
+                  {group.items.join(" · ")}
+                </p>
+              </RevealOnScroll>
+            ))}
+          </div>
+
+          <RevealOnScroll>
+            <div className="mt-12 border-t border-line pt-8">
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted">
+                Idiomas
+              </h3>
+              <p className="mt-3 text-sm text-ink">
+                {languages
+                  .map((l) => `${l.language} (${l.level})`)
+                  .join(" · ")}
+              </p>
+            </div>
+          </RevealOnScroll>
         </section>
 
         {/* Experiência */}
@@ -150,7 +235,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Educação e certificações */}
+        {/* Formação */}
         <section
           aria-labelledby="educacao-titulo"
           className="mx-auto max-w-content px-6 py-4 sm:px-10"
@@ -160,45 +245,29 @@ export default function Home() {
               id="educacao-titulo"
               className="font-mono border-t border-ink pt-6 text-[11px] uppercase tracking-[0.3em] text-muted"
             >
-              Educação e certificações
+              Formação
             </h2>
           </RevealOnScroll>
 
-          <RevealOnScroll>
-            <div className="mt-10 grid gap-8 border-t border-line pt-8 text-sm sm:mt-14 sm:grid-cols-2">
-              <div>
-                <p className="font-display text-lg italic text-ink">
-                  Análise e Desenvolvimento de Sistemas
-                </p>
-                <p className="mt-1 text-muted">
-                  Faculdade Impacta · previsão de conclusão em 2027
-                </p>
-              </div>
-              <div>
-                <p className="font-display text-lg italic text-ink">
-                  Programação Back-End com Python
-                </p>
-                <p className="mt-1 text-muted">EBAC</p>
-              </div>
-            </div>
-          </RevealOnScroll>
-
-          <RevealOnScroll>
-            <ul className="mt-8 flex flex-wrap gap-2">
-              {[
-                "Inteligência Artificial II",
-                "SPAs com React (IFRS)",
-                "Pearson Edexcel ESOL — Inglês Profissional",
-              ].map((cert) => (
-                <li
-                  key={cert}
-                  className="border border-ink/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-ink/75"
-                >
-                  {cert}
-                </li>
-              ))}
-            </ul>
-          </RevealOnScroll>
+          <div className="mt-10 space-y-6 sm:mt-14">
+            {education.map((item) => (
+              <RevealOnScroll key={item.title}>
+                <div className="grid gap-1 border-t border-line pt-6 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-10">
+                  <div>
+                    <p className="font-display text-lg italic text-ink">
+                      {item.title}
+                    </p>
+                    <p className="mt-1 text-sm text-muted">
+                      {item.institution}
+                    </p>
+                  </div>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted">
+                    {item.start} — {item.end}
+                  </p>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
         </section>
 
         {/* Contato / rodapé */}

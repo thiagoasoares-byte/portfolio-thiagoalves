@@ -1,4 +1,6 @@
 export type Project = {
+  /** Presente apenas em registros vindos da API (mockapi); ausente nos dados semente. */
+  id?: string;
   slug: string;
   index: number;
   category: string;
@@ -16,7 +18,7 @@ export type Project = {
   imageAlt?: string;
 };
 
-export const projects: Project[] = [
+export const seedProjects: Project[] = [
   {
     slug: "rota-aberta",
     index: 1,
@@ -95,5 +97,106 @@ export const projects: Project[] = [
     z: "usando Streamlit como frontend, Xano como backend, e um framework próprio de agentes de IA para acelerar a construção do backend",
     stack: ["Python", "Streamlit", "Xano", "Agentes de IA"],
     repoUrl: "https://github.com/thiagoasoares-byte/edutrack-ai",
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Certificados
+// ---------------------------------------------------------------------------
+
+export type Certificate = {
+  /** Presente apenas em registros vindos da API (mockapi); ausente nos dados semente. */
+  id?: string;
+  title: string;
+  issuer: string;
+  /** Texto livre, ex.: "2025" ou "Concluído em fev/2026". Opcional. */
+  date?: string;
+  imageUrl?: string;
+  credentialUrl?: string;
+};
+
+export const seedCertificates: Certificate[] = [
+  {
+    title: "Inteligência Artificial II",
+    issuer: "EBAC",
+    imageUrl: "/certificates/ia-ii.jpg",
+  },
+  {
+    title: "SPAs com React",
+    issuer: "IFRS — Instituto Federal do Rio Grande do Sul",
+    imageUrl: "/certificates/spas-react-ifrs.jpg",
+  },
+  {
+    title: "Pearson Edexcel ESOL — Inglês Profissional",
+    issuer: "Pearson",
+    imageUrl: "/certificates/pearson-esol.jpg",
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Competências técnicas
+// ---------------------------------------------------------------------------
+
+export const skillCategories: { category: string; items: string[] }[] = [
+  {
+    category: "Backend",
+    items: [
+      "Python",
+      "Node.js",
+      "NestJS",
+      "FastAPI",
+      "APIs RESTful",
+      "Arquitetura de microsserviços",
+    ],
+  },
+  {
+    category: "Frontend",
+    items: ["React", "TypeScript", "Vite", "HTML5", "CSS3"],
+  },
+  {
+    category: "Dados e Cache",
+    items: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "SQLAlchemy"],
+  },
+  {
+    category: "Cloud e DevOps",
+    items: ["AWS (Lambda, S3)", "Docker", "Kubernetes", "GitHub Actions (CI/CD)"],
+  },
+  {
+    category: "Qualidade e Automação",
+    items: ["Pytest", "n8n", "Selenium", "Apache Kafka"],
+  },
+  {
+    category: "Metodologias",
+    items: ["Agile/Scrum", "Git", "Pull Request com revisão obrigatória", "POO"],
+  },
+];
+
+export const languages: { language: string; level: string }[] = [
+  { language: "Português", level: "Nativo" },
+  { language: "Inglês", level: "Fluente, C2" },
+];
+
+// ---------------------------------------------------------------------------
+// Formação
+// ---------------------------------------------------------------------------
+
+export const education: { title: string; institution: string; start: string; end: string }[] = [
+  {
+    title: "Análise e Desenvolvimento de Sistemas",
+    institution: "Faculdade Impacta",
+    start: "Ago 2025",
+    end: "Dez 2027",
+  },
+  {
+    title: "Programação Back-End com Python",
+    institution: "EBAC",
+    start: "Fev 2025",
+    end: "Ago 2026",
+  },
+  {
+    title: "Programação Frontend com React",
+    institution: "EBAC",
+    start: "Fev 2025",
+    end: "Ago 2026",
   },
 ];
