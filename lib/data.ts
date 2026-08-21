@@ -48,7 +48,7 @@ export const seedProjects: Project[] = [
     z: "combinando generateStaticParams e generateMetadata do Next.js 15 com slugify(title) + id para gerar slugs estáveis",
     stack: ["Next.js 15", "React", "TypeScript", "mockapi.io"],
     repoUrl: "https://github.com/thiagoasoares-byte/Blog-Next.js-15-App-Router",
-    deployUrl: "https://lista-de-tarefas-next-js-15-testes.vercel.app",
+    deployUrl: "https://blog-next-js-15-app-router.vercel.app",
     deployLabel: "Ver deploy",
     imageUrl: "/projects/blog-nextjs.jpg",
     imageAlt: "Listagem de artigos do blog construído com Next.js 15 App Router",

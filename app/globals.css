@@ -99,6 +99,23 @@ body {
   animation: fade-in 0.9s ease-out 0.3s both;
 }
 
+/* Indicador de "role para baixo" no hero */
+@keyframes cue-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 0.35;
+  }
+}
+
+.scroll-cue {
+  animation: cue-bounce 2.2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -2,7 +2,7 @@ import Image from "next/image";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import StickyHeader from "@/components/StickyHeader";
 import ProjectBlock from "@/components/ProjectBlock";
-import CertificateCard from "@/components/CertificateCard";
+import CertificatesCarousel from "@/components/CertificatesCarousel";
 import { skillCategories, languages, education } from "@/lib/data";
 import { getProjects, getCertificates } from "@/lib/mockapi";
 
@@ -36,7 +36,7 @@ export default async function Home() {
 
       <main id="topo">
         {/* Hero — tipografia grande + retrato, no espírito editorial do Zara.com */}
-        <section className="mx-auto grid max-w-content items-center gap-10 px-6 pt-28 sm:grid-cols-[1.3fr_1fr] sm:gap-16 sm:px-10 sm:pt-32">
+        <section className="relative mx-auto grid max-w-content items-center gap-10 px-6 pb-20 pt-28 sm:grid-cols-[1.3fr_1fr] sm:gap-16 sm:px-10 sm:pb-28 sm:pt-32">
           <div>
             <p className="font-mono fade-in text-[11px] uppercase tracking-[0.3em] text-muted">
               Desenvolvedor FullStack
@@ -74,6 +74,22 @@ export default async function Home() {
                 </a>
               ))}
             </nav>
+            <div className="fade-in-delay-2 mt-6 flex flex-wrap gap-x-8 gap-y-2">
+              <a
+                href="/cv/thiago-alves-soares-pt.pdf"
+                download
+                className="link-underline focus-ring font-mono text-xs uppercase tracking-[0.15em] text-muted hover:text-ink"
+              >
+                Baixar CV ↓
+              </a>
+              <a
+                href="/cv/thiago-alves-soares-en.pdf"
+                download
+                className="link-underline focus-ring font-mono text-xs uppercase tracking-[0.15em] text-muted hover:text-ink"
+              >
+                Resume (EN) ↓
+              </a>
+            </div>
           </div>
 
           <div className="fade-in-delay-1 relative order-first aspect-[3/4] w-full max-w-xs justify-self-center overflow-hidden border border-line bg-stone sm:order-none sm:max-w-none sm:justify-self-end">
@@ -85,6 +101,18 @@ export default async function Home() {
               className="object-cover"
               priority
             />
+          </div>
+
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-6 hidden justify-center sm:flex"
+          >
+            <div className="scroll-cue flex flex-col items-center gap-2">
+              <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted">
+                Role
+              </span>
+              <span className="h-10 w-px bg-ink/25" />
+            </div>
           </div>
         </section>
 
@@ -108,9 +136,13 @@ export default async function Home() {
             </div>
           </RevealOnScroll>
 
-          {projects.map((project) => (
+          {projects.map((project, i) => (
             <RevealOnScroll key={project.slug}>
-              <ProjectBlock {...project} reverse={project.index % 2 === 0} />
+              <ProjectBlock
+                {...project}
+                position={i + 1}
+                reverse={i % 2 === 1}
+              />
             </RevealOnScroll>
           ))}
         </section>
@@ -129,13 +161,11 @@ export default async function Home() {
             </h2>
           </RevealOnScroll>
 
-          <div className="mt-10 grid gap-6 sm:mt-14 sm:grid-cols-3">
-            {certificates.map((cert) => (
-              <RevealOnScroll key={cert.id ?? cert.title}>
-                <CertificateCard {...cert} />
-              </RevealOnScroll>
-            ))}
-          </div>
+          <RevealOnScroll>
+            <div className="mt-10 sm:mt-14">
+              <CertificatesCarousel certificates={certificates} />
+            </div>
+          </RevealOnScroll>
         </section>
 
         {/* Competências técnicas */}

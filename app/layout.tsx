@@ -26,9 +26,23 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://portfoliothiagoalvesoares.vercel.app"),
   title: "Thiago Alves Soares — Desenvolvedor FullStack",
   description:
     "Portfólio de Thiago Alves Soares, Desenvolvedor FullStack com experiência em Python, Node.js, React e infraestrutura AWS.",
+  openGraph: {
+    title: "Thiago Alves Soares — Desenvolvedor FullStack",
+    description:
+      "Portfólio de Thiago Alves Soares, Desenvolvedor FullStack com experiência em Python, Node.js, React e infraestrutura AWS.",
+    type: "website",
+    locale: "pt_BR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Thiago Alves Soares — Desenvolvedor FullStack",
+    description:
+      "Portfólio de Thiago Alves Soares, Desenvolvedor FullStack com experiência em Python, Node.js, React e infraestrutura AWS.",
+  },
 };
 
 export default function RootLayout({
