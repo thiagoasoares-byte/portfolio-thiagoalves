@@ -48,10 +48,10 @@ export default async function Home() {
             </h1>
             <div className="hero-line mt-9 h-px bg-ink" />
             <p className="fade-in-delay-2 mt-9 max-w-md text-sm leading-relaxed text-muted">
-              Experiência prática de produção no setor financeiro (Fintech),
-              atuando em pipelines de CI/CD, testes automatizados e revisão
-              estruturada de código. Comunicador bilíngue avançado (Inglês
-              C2), construindo produtos documentados de ponta a ponta.
+              Desenvolvedor Full stack com experiencia na prática: back-end, front-end e
+              CI/CD que sustentam sistemas.
+              Testes automatizados, revisão estruturada de código e
+              comunicação bilíngue (Inglês C2).
             </p>
             <nav
               aria-label="Contatos"
@@ -107,12 +107,6 @@ export default async function Home() {
             aria-hidden
             className="pointer-events-none absolute inset-x-0 bottom-6 hidden justify-center sm:flex"
           >
-            <div className="scroll-cue flex flex-col items-center gap-2">
-              <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted">
-                Role
-              </span>
-              <span className="h-10 w-px bg-ink/25" />
-            </div>
           </div>
         </section>
 
@@ -120,7 +114,7 @@ export default async function Home() {
         <section
           id="projetos"
           aria-labelledby="projetos-titulo"
-          className="mx-auto max-w-content px-6 py-4 sm:px-10"
+          className="mx-auto max-w-content px-6 py-2 sm:px-10"
         >
           <RevealOnScroll>
             <div className="mt-16 flex items-baseline justify-between border-t border-ink pt-6 sm:mt-24">
