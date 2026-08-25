@@ -36,7 +36,7 @@ export default function CertificatesCarousel({
       {certificates.length > 1 && (
         <div className="mt-5 flex items-center justify-between">
           <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
-            Arraste ou use as setas
+            Use as setas
           </p>
           <div className="flex gap-2">
             <button

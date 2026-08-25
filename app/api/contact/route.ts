@@ -3,29 +3,6 @@ import { sendContactEmail } from "@/lib/email";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Sem NEXT_PUBLIC_: ficam só no servidor, diferente das URLs de
-// projects/certificates (que precisam ser públicas para o painel /admin
-// escrever direto do navegador). Aqui não há motivo para expor nada.
-const MESSAGES_URL = process.env.MOCKAPI_MESSAGES_URL;
-
-async function saveToMockapi(payload: {
-  name: string;
-  email: string;
-  message: string;
-}): Promise<boolean> {
-  if (!MESSAGES_URL) return false;
-  try {
-    const res = await fetch(MESSAGES_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...payload, createdAt: new Date().toISOString() }),
-    });
-    return res.ok;
-  } catch {
-    return false;
-  }
-}
-
 export async function POST(request: NextRequest) {
   let body: unknown;
   try {
@@ -60,17 +37,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ errors }, { status: 400 });
   }
 
-  const payload = { name, email, message };
+  const emailSent = await sendContactEmail({ name, email, message });
 
-  // E-mail é o canal principal (chega na hora); o mockapi é um backup
-  // opcional que também alimenta a aba "Mensagens" do painel /admin.
-  // Um dos dois já é suficiente para considerar a mensagem entregue.
-  const [emailSent, saved] = await Promise.all([
-    sendContactEmail(payload),
-    saveToMockapi(payload),
-  ]);
-
-  if (!emailSent && !saved) {
+  if (!emailSent) {
     return NextResponse.json(
       {
         error:
