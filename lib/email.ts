@@ -7,6 +7,16 @@ type ContactPayload = {
   message: string;
 };
 
+/**
+ * Envia o e-mail de notificação via Resend (https://resend.com). Usa
+ * fetch puro em vez do SDK deles para não adicionar uma dependência só
+ * por uma chamada HTTP simples.
+ *
+ * Sem domínio verificado no Resend, o remetente precisa ser
+ * "onboarding@resend.dev" e o destinatário precisa ser o e-mail da própria
+ * conta Resend — o que funciona perfeitamente aqui, já que o destino é o
+ * seu próprio e-mail.
+ */
 export async function sendContactEmail({
   name,
   email,
@@ -31,6 +41,8 @@ export async function sendContactEmail({
     });
 
     if (!res.ok) {
+      // Loga o motivo no servidor (visível nos logs da Vercel) sem
+      // expor detalhes internos na resposta ao visitante.
       console.error("Resend respondeu", res.status, await res.text().catch(() => ""));
     }
 

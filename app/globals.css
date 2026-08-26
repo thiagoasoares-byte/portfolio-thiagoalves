@@ -4,15 +4,39 @@
 
 :root {
   color-scheme: light;
+
+  /* Paleta clara — trios "R G B" (sem vírgula), consumidos via
+     rgb(var(--color-x) / <alpha-value>) no tailwind.config.ts */
+  --color-ink: 15 15 14; /* #0f0f0e */
+  --color-paper: 255 255 255; /* #ffffff */
+  --color-stone: 244 242 238; /* #f4f2ee */
+  --color-line: 225 222 215; /* #e1ded7 */
+  --color-muted: 130 121 108; /* #82796c */
+  --color-badge: 233 240 233; /* #e9f0e9 */
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Paleta escura — mesma lógica editorial (preto/branco + um pastel
+     discreto nas badges), só invertida e suavizada para não ser um
+     preto/branco puro. */
+  --color-ink: 245 243 239; /* #f5f3ef */
+  --color-paper: 18 17 16; /* #121110 */
+  --color-stone: 28 26 23; /* #1c1a17 */
+  --color-line: 47 44 39; /* #2f2c27 */
+  --color-muted: 163 154 140; /* #a39a8c */
+  --color-badge: 31 43 33; /* #1f2b21 */
 }
 
 html {
   scroll-behavior: smooth;
 }
 
+/* O fundo/cor do body vêm das classes bg-paper/text-ink no layout.tsx,
+   que já reagem à troca de tema — nada fixo aqui de propósito. */
 body {
-  background-color: #ffffff;
-  color: #0f0f0e;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Focus visibility, kept accessible regardless of the minimal palette */
@@ -21,7 +45,7 @@ body {
 }
 
 .focus-ring:focus-visible {
-  outline: 2px solid #0f0f0e;
+  outline: 2px solid rgb(var(--color-ink));
   outline-offset: 3px;
   border-radius: 1px;
 }

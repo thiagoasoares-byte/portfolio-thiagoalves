@@ -52,7 +52,6 @@ export default function ProjectsAdmin() {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function updateField(field: keyof typeof emptyForm, value: string) {
@@ -115,7 +114,7 @@ export default function ProjectsAdmin() {
   return (
     <div>
       {error && (
-        <p className="border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <p className="border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-950/40 dark:text-red-300">
           {error}
         </p>
       )}
@@ -166,7 +165,7 @@ export default function ProjectsAdmin() {
               </div>
               <button
                 onClick={() => handleDelete(item.id)}
-                className="focus-ring font-mono text-[11px] uppercase tracking-[0.1em] text-red-700 hover:underline"
+                className="focus-ring font-mono text-[11px] uppercase tracking-[0.1em] text-red-700 hover:underline dark:text-red-400"
               >
                 Remover
               </button>
@@ -203,7 +202,7 @@ function Input({
         value={value}
         required={required}
         onChange={(e) => onChange(e.target.value)}
-        className="focus-ring mt-1 w-full border border-line bg-white px-3 py-2 text-sm text-ink"
+        className="focus-ring mt-1 w-full border border-line bg-paper px-3 py-2 text-sm text-ink"
       />
     </label>
   );
@@ -232,7 +231,7 @@ function Textarea({
         required={required}
         onChange={(e) => onChange(e.target.value)}
         rows={2}
-        className="focus-ring mt-1 w-full border border-line bg-white px-3 py-2 text-sm text-ink"
+        className="focus-ring mt-1 w-full border border-line bg-paper px-3 py-2 text-sm text-ink"
       />
     </label>
   );

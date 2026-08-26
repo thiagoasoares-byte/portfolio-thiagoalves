@@ -1,16 +1,21 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        ink: "#0f0f0e", // near-black, primary text
-        paper: "#ffffff", // pure white, page background
-        stone: "#f4f2ee", // warm off-white for alternating panels
-        line: "#e1ded7", // hairline dividers
-        muted: "#82796c", // warm taupe, secondary text/labels
-        badge: "#e9f0e9", // soft pastel sage, used only to lift tech badges
+        // Tokens apontam para variáveis CSS (definidas em globals.css),
+        // que trocam de valor conforme a classe "dark" no <html>. O
+        // padrão rgb(var(...) / <alpha-value>) preserva os modificadores
+        // de opacidade do Tailwind (ex.: text-ink/50) em ambos os temas.
+        ink: "rgb(var(--color-ink) / <alpha-value>)",
+        paper: "rgb(var(--color-paper) / <alpha-value>)",
+        stone: "rgb(var(--color-stone) / <alpha-value>)",
+        line: "rgb(var(--color-line) / <alpha-value>)",
+        muted: "rgb(var(--color-muted) / <alpha-value>)",
+        badge: "rgb(var(--color-badge) / <alpha-value>)",
       },
       fontFamily: {
         // Same type system as Rota Aberta: Fraunces for display,

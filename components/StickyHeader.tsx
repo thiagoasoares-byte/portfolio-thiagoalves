@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 const links = [
   { href: "#projetos", label: "Projetos" },
@@ -26,7 +27,7 @@ export default function StickyHeader() {
           : "border-b border-transparent bg-transparent py-6"
       }`}
     >
-      <div className="mx-auto flex max-w-content items-center justify-between px-6 sm:px-10">
+      <div className="mx-auto flex max-w-content items-center justify-between gap-4 px-6 sm:px-10">
         <a
           href="#topo"
           className="focus-ring font-mono text-xs tracking-[0.3em] text-ink"
@@ -34,17 +35,23 @@ export default function StickyHeader() {
         >
           T. A. SOARES
         </a>
-        <nav aria-label="Navegação principal" className="hidden gap-8 sm:flex">
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="link-underline focus-ring font-mono text-[11px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
+        <div className="flex items-center gap-6 sm:gap-8">
+          <nav
+            aria-label="Navegação principal"
+            className="hidden gap-8 sm:flex"
+          >
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="link-underline focus-ring font-mono text-[11px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

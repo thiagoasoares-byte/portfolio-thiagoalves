@@ -26,7 +26,7 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://portfoliothiagoalvesoares.vercel.app"),
+  metadataBase: new URL("https://portfolio-thiagoalves.vercel.app/"),
   title: "Thiago Alves Soares — Desenvolvedor FullStack",
   description:
     "Portfólio de Thiago Alves Soares, Desenvolvedor FullStack com experiência em Python, Node.js, React e infraestrutura AWS.",
@@ -45,6 +45,25 @@ export const metadata: Metadata = {
   },
 };
 
+// Roda antes da hidratação do React, direto no <head>, para aplicar o
+// tema salvo (ou a preferência do sistema) sem piscar um tema errado por
+// uma fração de segundo. suppressHydrationWarning no <html> silencia só
+// o aviso de mismatch da classe "dark", que é esperado aqui.
+const themeInitScript = `
+(function () {
+  try {
+    var stored = localStorage.getItem("theme");
+    var theme =
+      stored === "dark" || stored === "light"
+        ? stored
+        : window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    if (theme === "dark") document.documentElement.classList.add("dark");
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: {
@@ -53,8 +72,12 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
+      suppressHydrationWarning
       className={`${display.variable} ${sans.variable} ${mono.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="font-body bg-paper text-ink antialiased">
         {children}
       </body>

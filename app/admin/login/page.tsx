@@ -54,11 +54,11 @@ export default function AdminLoginPage() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Senha"
             autoFocus
-            className="focus-ring w-full border border-line bg-white px-3 py-2.5 text-sm text-ink"
+            className="focus-ring w-full border border-line bg-paper px-3 py-2.5 text-sm text-ink"
           />
         </div>
 
-        {error && <p className="text-sm text-red-700">{error}</p>}
+        {error && <p className="text-sm text-red-700 dark:text-red-400">{error}</p>}
 
         <button
           type="submit"
