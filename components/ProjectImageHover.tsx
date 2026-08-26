@@ -2,6 +2,7 @@
 
 import { useState, type MouseEvent } from "react";
 import Image from "next/image";
+import { isValidImageSrc } from "@/lib/imageSrc";
 
 type ProjectImageHoverProps = {
   title: string;
@@ -31,7 +32,7 @@ export default function ProjectImageHover({
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
-      {imageUrl ? (
+      {isValidImageSrc(imageUrl) ? (
         <Image
           src={imageUrl}
           alt={imageAlt ?? `Captura de tela do projeto ${title}`}

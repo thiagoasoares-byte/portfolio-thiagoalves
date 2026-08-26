@@ -3,6 +3,7 @@ import RevealOnScroll from "@/components/RevealOnScroll";
 import StickyHeader from "@/components/StickyHeader";
 import ProjectBlock from "@/components/ProjectBlock";
 import CertificatesCarousel from "@/components/CertificatesCarousel";
+import ContactForm from "@/components/ContactForm";
 import { skillCategories, languages, education } from "@/lib/data";
 import { getProjects, getCertificates } from "@/lib/mockapi";
 
@@ -48,10 +49,10 @@ export default async function Home() {
             </h1>
             <div className="hero-line mt-9 h-px bg-ink" />
             <p className="fade-in-delay-2 mt-9 max-w-md text-sm leading-relaxed text-muted">
-              Desenvolvedor Full stack com experiencia na prática: back-end, front-end e
-              CI/CD que sustentam sistemas.
-              Testes automatizados, revisão estruturada de código e
-              comunicação bilíngue (Inglês C2).
+              Desenvolvedor FullStack com experiência prática de produção no setor financeiro (Fintech),
+              atuando em desenvolvimento back-end, frontend, testes automatizados e revisão
+              estruturada de código. Bilíngue(Inglês
+              C2).
             </p>
             <nav
               aria-label="Contatos"
@@ -107,6 +108,12 @@ export default async function Home() {
             aria-hidden
             className="pointer-events-none absolute inset-x-0 bottom-6 hidden justify-center sm:flex"
           >
+            <div className="scroll-cue flex flex-col items-center gap-2">
+              <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted">
+                Role
+              </span>
+              <span className="h-10 w-px bg-ink/25" />
+            </div>
           </div>
         </section>
 
@@ -114,7 +121,7 @@ export default async function Home() {
         <section
           id="projetos"
           aria-labelledby="projetos-titulo"
-          className="mx-auto max-w-content px-6 py-2 sm:px-10"
+          className="mx-auto max-w-content px-6 py-4 sm:px-10"
         >
           <RevealOnScroll>
             <div className="mt-16 flex items-baseline justify-between border-t border-ink pt-6 sm:mt-24">
@@ -294,40 +301,63 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Contato / rodapé */}
-        <footer
+        {/* Contato */}
+        <section
           id="contato"
-          className="mx-auto mt-20 max-w-content border-t border-ink px-6 py-10 sm:px-10"
+          aria-labelledby="contato-titulo"
+          className="mx-auto max-w-content px-6 py-4 sm:px-10"
         >
-          <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-            <div>
-              <p className="font-display text-2xl italic text-ink">
+          <RevealOnScroll>
+            <h2
+              id="contato-titulo"
+              className="font-mono border-t border-ink pt-6 text-[11px] uppercase tracking-[0.3em] text-muted"
+            >
+              Contato
+            </h2>
+          </RevealOnScroll>
+
+          <div className="mt-10 grid gap-12 border-t border-line pt-10 sm:mt-14 sm:grid-cols-2 sm:gap-16">
+            <RevealOnScroll>
+              <p className="font-display text-3xl italic text-ink">
                 Vamos conversar.
               </p>
-              <p className="mt-2 text-sm text-muted">São Paulo, Brasil</p>
-            </div>
-            <nav
-              aria-label="Contatos no rodapé"
-              className="flex flex-wrap gap-x-8 gap-y-2"
-            >
-              {contacts.map((c) => (
-                <a
-                  key={c.label}
-                  href={c.href}
-                  target={c.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    c.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  aria-label={`${c.label}: ${c.value}`}
-                  className="link-underline focus-ring font-mono text-xs uppercase tracking-[0.15em] text-ink"
-                >
-                  {c.value}
-                </a>
-              ))}
-            </nav>
+              <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
+                Prefere e-mail ou LinkedIn direto? Os contatos estão logo
+                abaixo. Se for mais fácil, é só preencher o formulário ao
+                lado.
+              </p>
+              <nav
+                aria-label="Contatos"
+                className="mt-6 flex flex-col items-start gap-2"
+              >
+                {contacts.map((c) => (
+                  <a
+                    key={c.label}
+                    href={c.href}
+                    target={c.href.startsWith("http") ? "_blank" : undefined}
+                    rel={
+                      c.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    aria-label={`${c.label}: ${c.value}`}
+                    className="link-underline focus-ring font-mono text-xs uppercase tracking-[0.15em] text-ink"
+                  >
+                    {c.value}
+                  </a>
+                ))}
+              </nav>
+            </RevealOnScroll>
+
+            <RevealOnScroll>
+              <ContactForm />
+            </RevealOnScroll>
           </div>
+        </section>
+
+        {/* Rodapé */}
+        <footer className="mx-auto mt-20 max-w-content border-t border-ink px-6 py-8 sm:px-10">
+          <p className="text-sm text-muted">São Paulo, Brasil</p>
         </footer>
       </main>
     </>

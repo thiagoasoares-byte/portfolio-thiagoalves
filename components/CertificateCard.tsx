@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Certificate } from "@/lib/data";
+import { isValidImageSrc } from "@/lib/imageSrc";
 
 export default function CertificateCard({
   title,
@@ -24,7 +25,7 @@ export default function CertificateCard({
       className="focus-ring group block border border-line transition-colors hover:border-ink/40"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-stone">
-        {imageUrl ? (
+        {isValidImageSrc(imageUrl) ? (
           <Image
             src={imageUrl}
             alt={`Certificado: ${title}, emitido por ${issuer}`}
