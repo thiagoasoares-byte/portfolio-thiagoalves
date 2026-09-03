@@ -49,7 +49,8 @@ export default async function Home() {
             </h1>
             <div className="hero-line mt-9 h-px bg-ink" />
             <p className="fade-in-delay-2 mt-9 max-w-md text-sm leading-relaxed text-muted">
-              Desenvolvedor FullStack com experiência prática de produção no setor financeiro (Fintech),
+              Desenvolvedor FullStack com
+              experiência prática de produção no setor financeiro (Fintech),
               atuando em desenvolvimento back-end, frontend, testes automatizados e revisão
               estruturada de código. Bilíngue(Inglês
               C2).
