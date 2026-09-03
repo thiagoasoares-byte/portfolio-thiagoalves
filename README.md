@@ -1,17 +1,14 @@
 # Portfólio — Thiago Alves Soares
 
-**Site em produção:** https://portfolio-thiagoalves.vercel.app/
+**Site em produção:** [https://portfolio-thiagoalves.vercel.app/](https://portfolio-thiagoalves.vercel.app)
 
 Portfólio pessoal de Thiago Alves Soares, Desenvolvedor FullStack, construído
-como um produto editorial — estética preto/branco e tipografia grande
-inspirada no Zara.com — em vez de um template genérico. Cada projeto é
+com estética preto/branco e tipografia grande. Cada projeto é
 apresentado pela metodologia Google XYZ (o que foi feito, por que importa,
 como foi feito), com conteúdo administrável sem precisar editar código.
 
 ## Destaques
 
-- Design editorial preto/branco com tipografia serifada (Fraunces) e
-  monoespaçada (IBM Plex Mono), inspirado no Zara.com
 - Projetos apresentados pela fórmula Google XYZ, com imagem, badges de
   tecnologia e links de repositório/deploy
 - Carrossel de certificados com sliding horizontal
