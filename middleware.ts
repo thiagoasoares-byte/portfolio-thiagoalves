@@ -22,8 +22,25 @@ export async function middleware(request: NextRequest) {
   const adminPassword = process.env.ADMIN_PASSWORD;
   const cookie = request.cookies.get(ADMIN_COOKIE_NAME)?.value ?? "";
   const expected = adminPassword ? await computeSessionToken(adminPassword) : null;
+  const match = Boolean(expected) && cookie === expected;
 
-  if (!expected || cookie !== expected) {
+  // DEBUG TEMPORÁRIO — remover depois de identificar o problema. Não
+  // loga a senha nem o token completo, só o suficiente pra saber qual
+  // das duas pontas está errada. Veja em Vercel → seu projeto →
+  // Deployments → (deployment atual) → aba "Logs", em tempo real,
+  // enquanto tenta logar de novo.
+  console.log("[admin-middleware]", {
+    pathname,
+    hasAdminPasswordEnv: Boolean(adminPassword),
+    cookiePresent: Boolean(request.cookies.get(ADMIN_COOKIE_NAME)),
+    cookieLength: cookie.length,
+    expectedLength: expected?.length ?? 0,
+    cookiePrefix: cookie.slice(0, 6),
+    expectedPrefix: expected?.slice(0, 6) ?? null,
+    match,
+  });
+
+  if (!match) {
     const loginUrl = new URL("/admin/login", request.url);
     return withNoStore(NextResponse.redirect(loginUrl));
   }
