@@ -11,10 +11,10 @@ const PROJECTS_URL = process.env.NEXT_PUBLIC_MOCKAPI_PROJECTS_URL;
 const CERTIFICATES_URL = process.env.NEXT_PUBLIC_MOCKAPI_CERTIFICATES_URL;
 
 /**
- * Busca os projetos no mockapi.io. Se a variável de ambiente não estiver
- * configurada, se a requisição falhar ou a coleção estiver vazia, cai de
- * volta para os dados semente em lib/data.ts — mesmo padrão de fallback
- * silencioso já usado no projeto do Blog.
+ * Busca os projetos no mockapi.io e junta com os dados semente de
+ * lib/data.ts. Um registro da API com o mesmo slug substitui o da semente.
+ * Se a variável de ambiente não estiver configurada ou a requisição falhar,
+ * devolve só as sementes — mesmo padrão de fallback silencioso do Blog.
  */
 export async function getProjects(): Promise<Project[]> {
   if (!PROJECTS_URL) return seedProjects;
@@ -24,14 +24,17 @@ export async function getProjects(): Promise<Project[]> {
     if (!res.ok) throw new Error(`mockapi respondeu ${res.status}`);
     const data = (await res.json()) as Project[];
     if (!Array.isArray(data) || data.length === 0) return seedProjects;
-    return data.sort((a, b) => a.index - b.index);
+    const fromSeed = seedProjects.filter(
+      (seed) => !data.some((item) => item.slug === seed.slug)
+    );
+    return [...fromSeed, ...data].sort((a, b) => a.index - b.index);
   } catch {
     return seedProjects;
   }
 }
 
 /**
- * Mesma lógica de fallback aplicada aos certificados.
+ * Mesma lógica aplicada aos certificados, deduplicando por título.
  */
 export async function getCertificates(): Promise<Certificate[]> {
   if (!CERTIFICATES_URL) return seedCertificates;
@@ -41,7 +44,10 @@ export async function getCertificates(): Promise<Certificate[]> {
     if (!res.ok) throw new Error(`mockapi respondeu ${res.status}`);
     const data = (await res.json()) as Certificate[];
     if (!Array.isArray(data) || data.length === 0) return seedCertificates;
-    return data;
+    const fromSeed = seedCertificates.filter(
+      (seed) => !data.some((item) => item.title === seed.title)
+    );
+    return [...fromSeed, ...data];
   } catch {
     return seedCertificates;
   }
